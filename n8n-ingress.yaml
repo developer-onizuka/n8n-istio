@@ -52,6 +52,8 @@ spec:
           value: "https://n8n.example.com/"
         - name: WEBHOOK_TUNNEL_URL
           value: "https://n8n.example.com/"
+        - name: N8N_EDITOR_BASE_URL
+          value: "https://n8n.example.com/"
         - name: N8N_PROTOCOL
           value: "https"
         - name: VUE_APP_URL_PROTOCOL
