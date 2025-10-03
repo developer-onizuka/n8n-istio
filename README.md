@@ -7,3 +7,8 @@ openssl x509 -req -sha256 -days 365 -CA example.com.crt -CAkey example.com.key -
 
 kubectl create -n istio-system secret tls n8n-credential --key=n8n.example.com.key --cert=n8n.example.com.crt
 ```
+
+```
+$ kubectl logs ngrok-tunnel-client-74697dd844-8hzc8 | jq -r 'select(.url != null) | .url'
+https://xxxxx.ngrok-free.dev
+```
