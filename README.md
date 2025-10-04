@@ -277,15 +277,15 @@ Description:
 最後にワークフローの最後にAI Agentが作成した回答をSlack Channelに回答するノードを作成します。ここでは、主にChannel IDを設定します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Send-Message.png" width="960">
 
-Redirect URLとClient ID、Secretを設定します。https://api.slack.com/apps/でアプリを選択し、Basic Informationでこれらの値を確認できます。<br><br>
+Redirect URLとClient ID、Secretを設定します。https://api.slack.com/apps/ でアプリを選択し、Basic Informationでこれらの値を確認できます。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Redirect-URL.png" width="960">
 
 ### 6-6. Event Subscription
-https://api.slack.com/apps/でアプリを選択し、Event Subscription画面に遷移します。
+https://api.slack.com/apps/ でアプリを選択し、Event Subscription画面に遷移します。
 [Enable Events]をOnにします。[Add Bot User Event]をクリックしてapp_mentionを選択します。Requested URLにProduction URLをペーストします。**[Save Changes]をクリックして変更を保存する(重要)。**<br><br>
-<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Event-Subscription.png" width="960">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Event-Subscription.png" width="480">
 
 Production URLは、Slack Triggerをダブルクリックして現れる画面からコピーします。**ここではlocalhostから始まるURLですが、localhostの部分は、n8n-ingress.yaml内で定義したWEBHOOK_TUNNEL_URLと置き換えます(重要)。**<br><br>
-<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/POST-URL.png" width="960">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/POST-URL.png" width="480">
 
 
