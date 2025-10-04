@@ -141,7 +141,7 @@ n8n-credential    kubernetes.io/tls   2      42h
 ```
 
 ### 4-4. Create tunnel with ngrok
-ngrokは、Webhookの重要な課題を解決するため、ローカルn8n開発に不可欠なツールです。ローカル開発では、n8nインスタンスはルーターとファイアウォールの背後に隠れてしまい、外部サービスからアクセスできなくなります。ngrokは、パブリックインターネットアドレスからローカルマシンへの安全なトンネルを作成することでこの問題を解決します。これにより、外部サービス（Slackや決済代行サービスなど）がローカルで実行されているn8nのWebhook URLにHTTPリクエストを送信し、シームレスなテストとデバッグが可能になります。<br><br>
+ngrokは、Webhookの重要な課題を解決するため、ローカルなn8n環境に不可欠なツールです。ローカルなn8n環境では、n8nインスタンスはルーターとファイアウォールの背後に隠れてしまい、Slackなどの外部サービスからは直接アクセスできません。ngrokは、パブリックインターネットアドレスからローカルマシンへの安全なトンネルを作成することでこの問題を解決します。これにより、外部サービスがローカルで実行されているn8nのWebhook URLにHTTPリクエストを送信し、n8nインスタンスへのWebhookを可能にします。<br><br>
 Ngrok is an essential tool for local n8n development because it solves a critical Webhook challenge. When developing locally, your n8n instance is hidden behind your router and firewall, making it inaccessible to external services. ngrok addresses this by creating a secure tunnel from a public internet address to your local machine, allowing external services (like Slack or payment processors) to successfully send HTTP requests to your locally running n8n Webhook URL for seamless testing and debugging.<br>
 ```
 kubectl apply -f ngrok-secret.yaml
