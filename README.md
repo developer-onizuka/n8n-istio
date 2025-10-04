@@ -1,8 +1,15 @@
-# n8n-istio
+# n8nで開発する、RAGを活用したAIエージェントによるSlackチャットボット
 
+# 1. 必要なもの
+mac book air m3/m4 (above 24GB memory)
 
+# 2. ゴール
+一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築することです。
+
+### AIエージェントのイメージ
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-slack-RAG.png" width="960">
 
+### Slackチャットボットの受け答えイメージ
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/slack-bot.png" width="960">
 
 
