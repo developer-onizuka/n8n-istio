@@ -4,11 +4,14 @@
 mac book air m3/m4 (above 24GB memory)
 
 # 1. ゴール
-一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築することです。
+一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築することです。<br>
+The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.).
 
 ### AIエージェントのイメージ
-左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br>
+左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br><br>
 右半分：Slackのチャネルに投稿があった場合、それをトリガーにして投稿内容をLLMが理解し、保存されているナレッジを使用して、ユーザーからの質問にSlackで回答するフロー<br>
+Left half: A flow for uploading any PDF and creating a vector database.<br><br>
+Right half: When a post is made to a Slack channel, it triggers LLM to understand the post and use stored knowledge to answer user questions via Slack.<br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-slack-RAG.png" width="960">
 
 ### Slackチャットボットの受け答えイメージ
@@ -24,8 +27,8 @@ mac book air m3/m4 (above 24GB memory)
 ### 2-3. Install git & git clone
 >https://git-scm.com/downloads
 ```
-git clone https://github.com/developer-onizuka/n8n-ollama
-cd n8n-ollama
+git clone https://github.com/developer-onizuka/n8n-istio
+cd n8n-istio
 ```
 ### 2-4. Roll out Virtual Machine
 ### 2-4-1. Master node / Worker node
@@ -58,6 +61,7 @@ master    Ready    control-plane   39m   v1.33.5
 worker1   Ready    node            38m   v1.33.5
 ```
 ### 2-7. Setup LoadBalancer
+ロードバランサーに割り当てる IP アドレスの範囲を指定します。<br>
 Specify the range of IP addresses to be assigned to the load balancer.
 ```
 kubectl apply -f metallb-ipaddress.yaml
@@ -89,6 +93,8 @@ pvc-6614e902-7abc-4865-acc9-f2420f338daa   5Gi        RWX            Delete     
 pvc-8b0667ba-1848-40e5-89f5-0ecaaa0c901d   20Gi       RWX            Delete           Bound    default/pvc-nfs-ollama   nfs-vm-csi       <unset>                          4s
 ```
 ### 2-11. Install istio
+Istioは、Kubernetes環境で稼働するサービスメッシュを実現するためのオープンソースプラットフォームです。マイクロサービスの接続、セキュリティ、管理、監視を担い、トラフィックルーティング（A/Bテストなど）、認証認可、メトリクス収集といった高度な機能を提供し、開発者ではなくインフラ側でサービス間通信の複雑さを扱えるようにします。今回は、HTTPS環境を構築する際に、IstioのIngress Gatewayを活用します。Ingress Gatewayは、Kubernetesクラスターの外部からのトラフィックを受け付ける Istioの入り口であり、特にセキュリティとトラフィック管理において重要な役割を果たします。<br>
+Istio is an open-source platform that enables a service mesh running in a Kubernetes environment. It handles the connection, security, management, and monitoring of microservices, providing advanced capabilities like traffic routing (e.g., A/B testing), authentication, authorization, and metrics collection. This approach allows the infrastructure layer, rather than the developers, to manage the complexity of inter-service communication.For this project, we will leverage Istio's Ingress Gateway when setting up the HTTPS environment. The Ingress Gateway is the entry point for Istio, receiving traffic from outside the Kubernetes cluster, and plays a crucial role, particularly in security and traffic management.
 ```
 mkdir work
 cd work/
@@ -118,6 +124,8 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)    
 istio-ingressgateway   LoadBalancer   10.101.123.63   192.168.33.3   15021:32287/TCP,80:31347/TCP,443:30994/TCP   46h
 ```
 ### 2-13. Create secret for HTTPS
+ここでは、Kubernetes環境、特にIstioサービスメッシュ内で安全な HTTPS通信を確立するための 自己署名証明書を作成し、KubernetesのSecretとして保存する一連のプロセスを実行しています。<br>
+This sequence of commands performs the process of creating a self-signed TLS/SSL certificate and storing it as a Kubernetes Secret to enable secure HTTPS communication within a Kubernetes environment utilizing Istio.<br>
 ```
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
 openssl req -out n8n.example.com.csr -newkey rsa:2048 -nodes -keyout n8n.example.com.key -subj "/CN=n8n.example.com/O=n8n organization"
@@ -134,7 +142,8 @@ n8n-credential    kubernetes.io/tls   2      42h
 ```
 
 ### 2-14. Create tunnel with ngrok
-Ngrok is an essential tool for local n8n development because it solves a critical Webhook challenge. When developing locally, your n8n instance is hidden behind your router and firewall, making it inaccessible to external services. ngrok addresses this by creating a secure tunnel from a public internet address to your local machine, allowing external services (like Slack or payment processors) to successfully send HTTP requests to your locally running n8n Webhook URL for seamless testing and debugging.
+ngrokは、Webhookの重要な課題を解決するため、ローカルn8n開発に不可欠なツールです。ローカル開発では、n8nインスタンスはルーターとファイアウォールの背後に隠れてしまい、外部サービスからアクセスできなくなります。ngrokは、パブリックインターネットアドレスからローカルマシンへの安全なトンネルを作成することでこの問題を解決します。これにより、外部サービス（Slackや決済代行サービスなど）がローカルで実行されているn8nのWebhook URLにHTTPリクエストを送信し、シームレスなテストとデバッグが可能になります。<br>
+Ngrok is an essential tool for local n8n development because it solves a critical Webhook challenge. When developing locally, your n8n instance is hidden behind your router and firewall, making it inaccessible to external services. ngrok addresses this by creating a secure tunnel from a public internet address to your local machine, allowing external services (like Slack or payment processors) to successfully send HTTP requests to your locally running n8n Webhook URL for seamless testing and debugging.<br>
 ```
 kubectl apply -f ngrok-secret.yaml
 kubectl apply -f ngrok.yaml 
