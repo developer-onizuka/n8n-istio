@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ngrok-tunnel-client
+  namespace: default
+  labels:
+    app: ngrok
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ngrok
+  template:
+    metadata:
+      labels:
+        app: ngrok
+    spec:
+      containers:
+      - name: ngrok
+        image: ngrok/ngrok:latest
+        command: ["ngrok"]
+        args:
+          [
+            "http", 
+            "svc-n8n:5678",
+            "--log=stdout",
+            "--log-format=json",
+          ]
+        env:
+        - name: NGROK_AUTHTOKEN
+          valueFrom:
+            secretKeyRef:
+              name: ngrok-authtoken
+              key: authtoken
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-ngrok
+  namespace: default
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4040
+    targetPort: 4040
+  selector:
+    app: ngrok
