@@ -262,7 +262,7 @@ Slack Triggerノードをキャンバス上に置きます。Slackの設定画�
 
 ### 6-3. Edit Field
 次の画面を参考に設定をしてください。<br><br>
-<img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/Edit-Field.png" width="960">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Edit-Field.png" width="960">
 
 ### 6-4. AI Agent
 これはベクターストアを使用する AI エージェントであり、RAG を搭載したチャットボットとして機能します。<br><br>
@@ -275,8 +275,8 @@ Description:
 ```
 ### 6-5. Slack Send a message
 最後にワークフローの最後にAI Agentが作成した回答をSlack Channelに回答するノードを作成します。ここでは、主にChannel IDを設定します。<br><br>
-<img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/Send-Message.png" width="960">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Send-Message.png" width="960">
 
 Redirect URLとClient ID、Secretを設定します。https://api.slack.com/apps/のBasic Informationでこれらの値を確認できます。<br><br>
-<img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/Redirect-URL.png" width="960">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Redirect-URL.png" width="960">
 
