@@ -1,9 +1,9 @@
 # n8n-istio
 
 
-<img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/n8n-slack-RAG.png" width="960">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-slack-RAG.png" width="960">
 
-<img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/slack-bot" width="960">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/slack-bot" width="960">
 
 
 ```
