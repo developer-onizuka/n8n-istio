@@ -235,7 +235,7 @@ success
 Slackアプリに付与する、権限をスコープとして設定します。ここで与えた権限は、Slackワークスペースにおけるアプリの動作を制限するためのものです。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Bot-Toke-Scopes.png" width="480">
 
-ここでは、ワークスペースにインストールすることになるアプリに関するOAuthトークンを作成します。<br><br>
+ここでは、ワークスペースにインストールすることになるアプリに関するOAuthトークンを作成します。[Install to xxx]をクリックします。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/OAuth-Tokens.png" width="480">
 
 許可のボタンをクリックします。<br><br>
@@ -248,7 +248,7 @@ Bot User OAuth Tokenをコピーします。後々、このトークンを使用
 以下のURLで、Slackを起動します。<br><br>
 - https://slack.com/intl/ja-jp/
 
-以下のようにSlackチャネルで、アプリを追加します。<br><br>
+以下のようにSlack Channelで、アプリを追加します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel.png" width="480">
 <br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel2.png" width="480">
