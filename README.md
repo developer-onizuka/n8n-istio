@@ -250,7 +250,7 @@ Bot User OAuth Tokenをコピーします。後々、このトークンを使用
 
 以下のようにSlack Channelで、アプリを追加します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel.png" width="480">
-↓↓↓↓↓<br>
+<br>↓↓↓↓↓<br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel2.png" width="480">
 
 ### 6-2-3. 認証設定
