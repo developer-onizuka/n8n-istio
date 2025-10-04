@@ -183,7 +183,39 @@ svc-ngrok     ClusterIP   10.108.101.133   <none>        4040/TCP    90m   app=n
 svc-ollama    ClusterIP   10.100.121.176   <none>        11434/TCP   10d   app=ollama
 ```
 
+### 5-3. Download the llama in Ollama as brain
+```
+kubectl exec -it <your-ollama-pod-name> -- ollama pull llama3.2:3b
+```
+```
+$ kubectl exec -it pods/ollama-6c988c64c6-7fxfp -- ollama pull llama3.2:3b
+pulling manifest 
+pulling dde5aa3fc5ff: 100% ▕██████████████████████████████████████▏ 2.0 GB                         
+pulling 966de95ca8a6: 100% ▕██████████████████████████████████████▏ 1.4 KB                         
+pulling fcc5a6bec9da: 100% ▕██████████████████████████████████████▏ 7.7 KB                         
+pulling a70ff7e570d9: 100% ▕██████████████████████████████████████▏ 6.0 KB                         
+pulling 56bb8bd477a5: 100% ▕██████████████████████████████████████▏   96 B                         
+pulling 34bb5ab01051: 100% ▕██████████████████████████████████████▏  561 B                         
+verifying sha256 digest 
+writing manifest 
+success
+```
 
+### 5-4. Download the embed model in Ollama as backend for RAG
+```
+kubectl exec -it <your-ollama-pod-name> -- ollama pull nomic-embed-text:latest 
+```
+```
+$ kubectl exec -it pods/ollama-6c988c64c6-qgsdm -- ollama pull nomic-embed-text:latest
+pulling manifest 
+pulling 970aa74c0a90: 100% ▕██████████████████████████████████████▏ 274 MB                         
+pulling c71d239df917: 100% ▕██████████████████████████████████████▏  11 KB                         
+pulling ce4a164fc046: 100% ▕██████████████████████████████████████▏   17 B                         
+pulling 31df23ea7daa: 100% ▕██████████████████████████████████████▏  420 B                         
+verifying sha256 digest 
+writing manifest 
+success 
+```
 
 
 
