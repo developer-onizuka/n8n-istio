@@ -10,6 +10,7 @@ The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-pre
 - Left half: A flow for uploading any PDF and creating a vector database.<br>
 - Right half: When a post is made to a Slack channel, it triggers LLM to understand the post and use stored knowledge to answer user questions via Slack.<br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-slack-RAG.png" width="960">
+
 ### 1-2. Slackチャットボットの受け答えイメージ
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/slack-bot.png" width="960">
 
