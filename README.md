@@ -158,7 +158,7 @@ n8n-ingress.yaml ファイルで、WEBHOOK_TUNNEL_URL の値を、次のコマ�
 In the n8n-ingress.yaml file, set (or update) the WEBHOOK_TUNNEL_URL value to the result of running the following command:<br>
 ```
 $ kubectl logs ngrok-tunnel-client-74697dd844-8hzc8 | jq -r 'select(.url != null) | .url'
-https://xxxxx.ngrok-free.dev
+https://xxxxxxxxxx.ngrok-free.dev
 ```
 After edit the file of n8n-ingress.yaml, let's apply it in the kubernetes:
 ```
