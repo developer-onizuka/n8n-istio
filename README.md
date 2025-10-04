@@ -245,7 +245,7 @@ Bot User OAuth Tokenをコピーします。後々、このトークンを使用
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Bot-User-OAuth-Token.png" width="480">
 
 ### 6-2-2. Slack Bot User OAuth Tokenの取得
-以下のURLで、Slackを起動します。<br><br>
+以下のURLで、Slackを起動します。<br>
 - https://slack.com/intl/ja-jp/
 
 以下のようにSlack Channelで、アプリを追加します。<br><br>
