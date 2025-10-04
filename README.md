@@ -2,7 +2,7 @@
 # 0. 必要なもの
 mac book air m3/m4 (above 24GB memory)
 # 1. ゴール
-一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築します。この際、サービスメッシュを使い、HTTPS環境を構築することでセキュアな実行環境を構築します。<br><br>
+一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築します。<br><br>
 The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.).In this case, a secure execution environment is created by using a service mesh and building an HTTPS environment.<br>
 ### 1-1. AIエージェントの完成イメージ
 - 左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br>
@@ -14,7 +14,7 @@ The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-pre
 ### 1-2. Slackチャットボットの受け答えイメージ
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/slack-bot.png" width="960">
 
-# 2. 構築までの流れ(仮想マシン部)
+# 2. 構築までの流れ (仮想マシン部)
 ### 2-1. Install Hypervisor
 >https://www.oracle.com/jp/virtualization/technologies/vm/downloads/virtualbox-downloads.html
 
@@ -40,7 +40,7 @@ cd nfs
 vagrant up
 cd ..
 ```
-# 3. 構築までの流れ(Kubernetes部)
+# 3. 構築までの流れ (Kubernetes部)
 ### 3-1. Login Master node & git clone
 ```
 cd kubernetes
@@ -90,9 +90,9 @@ NAME                                       CAPACITY   ACCESS MODES   RECLAIM POL
 pvc-6614e902-7abc-4865-acc9-f2420f338daa   5Gi        RWX            Delete           Bound    default/pvc-nfs-n8n      nfs-vm-csi-n8n   <unset>                          66s
 pvc-8b0667ba-1848-40e5-89f5-0ecaaa0c901d   20Gi       RWX            Delete           Bound    default/pvc-nfs-ollama   nfs-vm-csi       <unset>                          4s
 ```
-# 4. 構築までの流れ(Network部)
+# 4. 構築までの流れ　(Service Mesh部)
 ### 4-1. Install istio
-Istioは、Kubernetes環境で稼働するサービスメッシュを実現するためのオープンソースプラットフォームです。マイクロサービスの接続、セキュリティ、管理、監視を担い、トラフィックルーティング（A/Bテストなど）、認証認可、メトリクス収集といった高度な機能を提供し、開発者ではなくインフラ側でサービス間通信の複雑さを扱えるようにします。今回は、HTTPS環境を構築する際に、IstioのIngress Gatewayを活用します。Ingress Gatewayは、Kubernetesクラスターの外部からのトラフィックを受け付ける Istioの入り口であり、特にセキュリティとトラフィック管理において重要な役割を果たします。<br><br>
+Istioは、Kubernetes環境で稼働するService Meshを実現するためのオープンソースプラットフォームです。マイクロサービスの接続、セキュリティ、管理、監視を担い、トラフィックルーティング（A/Bテストなど）、認証認可、メトリクス収集といった高度な機能を提供し、開発者ではなくインフラ側でサービス間通信の複雑さを扱えるようにします。今回は、HTTPS環境を構築する際に、IstioのIngress Gatewayを活用します。Ingress Gatewayは、Kubernetesクラスターの外部からのトラフィックを受け付ける Istioの入り口であり、特にセキュリティとトラフィック管理において重要な役割を果たします。<br><br>
 Istio is an open-source platform that enables a service mesh running in a Kubernetes environment. It handles the connection, security, management, and monitoring of microservices, providing advanced capabilities like traffic routing (e.g., A/B testing), authentication, authorization, and metrics collection. This approach allows the infrastructure layer, rather than the developers, to manage the complexity of inter-service communication.For this project, we will leverage Istio's Ingress Gateway when setting up the HTTPS environment. The Ingress Gateway is the entry point for Istio, receiving traffic from outside the Kubernetes cluster, and plays a crucial role, particularly in security and traffic management.<br>
 ```
 mkdir work
@@ -152,7 +152,7 @@ $ kubectl get secrets
 NAME              TYPE     DATA   AGE
 ngrok-authtoken   Opaque   1      20h
 ```
-# 5. 構築までの流れ(コンテナ部)
+# 5. 構築までの流れ (コンテナ部)
 ### 5-1. Roll out Ollama & n8n
 n8n-ingress.yaml ファイルで、WEBHOOK_TUNNEL_URL の値を、次のコマンドを実行した結果に設定 (または更新) します。<br><br>
 In the n8n-ingress.yaml file, set (or update) the WEBHOOK_TUNNEL_URL value to the result of running the following command:<br>
@@ -277,6 +277,15 @@ Description:
 最後にワークフローの最後にAI Agentが作成した回答をSlack Channelに回答するノードを作成します。ここでは、主にChannel IDを設定します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Send-Message.png" width="960">
 
-Redirect URLとClient ID、Secretを設定します。https://api.slack.com/apps/のBasic Informationでこれらの値を確認できます。<br><br>
+Redirect URLとClient ID、Secretを設定します。https://api.slack.com/apps/でアプリを選択し、Basic Informationでこれらの値を確認できます。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Redirect-URL.png" width="960">
+
+### 6-6. Event Subscription
+https://api.slack.com/apps/でアプリを選択し、Event Subscription画面に遷移します。
+[Enable Events]をOnにします。[Add Bot User Event]をクリックしてapp_mentionを選択します。Requested URLにProduction URLをペーストします。**[Save Changes]をクリックして変更を保存する(重要)。**<br><br>
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Event-Subscription.png" width="960">
+
+Production URLは、Slack Triggerをダブルクリックして現れる画面からコピーします。**ここではlocalhostから始まるURLですが、localhostの部分は、n8n-ingress.yaml内で定義したWEBHOOK_TUNNEL_URLと置き換えます(重要)。**<br><br>
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/POST-URL.png" width="960">
+
 
