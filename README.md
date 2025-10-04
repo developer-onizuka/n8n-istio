@@ -1,5 +1,11 @@
 # n8n-istio
 
+
+<img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/n8n-slack-RAG.png" width="960">
+
+<img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/slack-bot" width="960">
+
+
 ```
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
 openssl req -out n8n.example.com.csr -newkey rsa:2048 -nodes -keyout n8n.example.com.key -subj "/CN=n8n.example.com/O=n8n organization"
