@@ -5,9 +5,9 @@ mac book air m3/m4 (above 24GB memory)
 一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築することです。<br><br>
 The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.).
 ### 1-1. AIエージェントの完成イメージ
-- 左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br><br>
+- 左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br>
 - 右半分：Slackのチャネルに投稿があった場合、それをトリガーにして投稿内容をLLMが理解し、保存されているナレッジを使用して、ユーザーからの質問にSlackで回答するフロー<br><br>
-- Left half: A flow for uploading any PDF and creating a vector database.<br><br>
+- Left half: A flow for uploading any PDF and creating a vector database.<br>
 - Right half: When a post is made to a Slack channel, it triggers LLM to understand the post and use stored knowledge to answer user questions via Slack.<br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-slack-RAG.png" width="960">
 ### 1-2. Slackチャットボットの受け答えイメージ
