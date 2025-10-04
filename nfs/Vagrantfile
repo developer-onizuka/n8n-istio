@@ -1,0 +1,31 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-22.04"
+  config.ssh.forward_x11 = true
+
+#---------- nfs ----------
+  config.vm.define "nfs" do |server|
+    server.vm.network "private_network", ip: "192.168.33.11"
+    server.vm.hostname = "nfs"
+    server.vm.provider "virtualbox" do |vb|
+      vb.memory = 1024
+      vb.cpus = 1
+    end
+    server.vm.provision "shell", inline: <<-SHELL
+      apt update
+      apt install -y nfs-kernel-server
+      mkdir -p /home/vagrant/exports
+      mkdir -p /home/vagrant/exports-n8n
+      chown vagrant:vagrant /home/vagrant/exports
+      chown vagrant:vagrant /home/vagrant/exports-n8n
+      chmod 777 /home/vagrant/exports
+      chmod 777 /home/vagrant/exports-n8n
+      cat <<EOF >> /etc/exports
+/home/vagrant/exports *(rw,nohide,no_subtree_check)
+/home/vagrant/exports-n8n *(rw,nohide,no_subtree_check,no_root_squash)
+EOF
+      exportfs -ra
+    SHELL
+  end
+#-------------------------
+
+end

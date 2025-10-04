@@ -1,0 +1,138 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-24.04"
+  config.ssh.forward_x11 = true
+
+#---------- worker1 ----------
+  config.vm.define "worker1" do |server|
+    server.vm.network "private_network", ip: "192.168.33.101"
+    server.vm.hostname = "worker1"
+    server.vm.provider "virtualbox" do |vb|
+      vb.memory = 8192
+      vb.cpus = 4
+    end
+    server.vm.provision "shell", inline: <<-SHELL
+      sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+      resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+      swapoff -a
+      sed -i "/swap/d" /etc/fstab
+      apt update
+      apt install -y curl
+      apt install -y containerd
+      mkdir -p /etc/containerd
+      containerd config default > /etc/containerd/config.toml
+      sed -i -e 's/SystemdCgroup = false/SystemdCgroup = true/' -e 's|registry.k8s.io/pause:3.8|registry.k8s.io/pause:3.10|' /etc/containerd/config.toml
+      systemctl restart containerd
+      curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /
+EOF
+      curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+      apt update
+      apt install -y -q kubelet kubectl kubeadm
+      echo "KUBELET_EXTRA_ARGS=--node-ip=192.168.33.101" > /etc/default/kubelet
+      systemctl daemon-reload
+      cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+      modprobe overlay
+      modprobe br_netfilter
+      cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+      ufw disable
+      systemctl disable --now ufw
+      ufw status
+      cat <<EOF | sudo tee /etc/sysctl.conf
+net.ipv4.ip_forward                 = 1
+EOF
+      sysctl -p
+      systemctl restart kubelet
+      sed -i "/swap/d" /etc/fstab
+    SHELL
+  end
+
+#---------- master ----------
+  config.vm.define "master" do |server|
+    server.vm.network "private_network", ip: "192.168.33.100"
+    server.vm.hostname = "master"
+    server.vm.provider "virtualbox" do |vb|
+      vb.memory = 8192
+      vb.cpus = 4
+    end
+    server.vm.provision "shell", inline: <<-SHELL
+      sudo lvextend -l +100%FREE /dev/mapper/ubuntu--vg-ubuntu--lv
+      resize2fs /dev/mapper/ubuntu--vg-ubuntu--lv
+      swapoff -a
+      sed -i "/swap/d" /etc/fstab
+      apt update
+      apt install -y curl
+      apt install -y containerd
+      mkdir -p /etc/containerd
+      containerd config default > /etc/containerd/config.toml
+      sed -i -e 's/SystemdCgroup = false/SystemdCgroup = true/' -e 's|registry.k8s.io/pause:3.8|registry.k8s.io/pause:3.10|' /etc/containerd/config.toml
+      systemctl restart containerd
+      apt install -y sshpass
+      ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa <<< y
+      cat <<EOF > ~/.ssh/config
+host 192.168.33.*
+   StrictHostKeyChecking no
+EOF
+      chmod 600 ~/.ssh/config
+      sshpass -p "vagrant" ssh-copy-id -i ~/.ssh/id_rsa.pub vagrant@192.168.33.101
+      curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+      cat <<EOF | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.33/deb/ /
+EOF
+      curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.33/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+
+      apt update
+      apt install -y -q kubelet kubectl kubeadm
+      echo "KUBELET_EXTRA_ARGS=--node-ip=192.168.33.100" > /etc/default/kubelet
+      systemctl daemon-reload
+      cat <<EOF | sudo tee /etc/modules-load.d/k8s.conf
+overlay
+br_netfilter
+EOF
+      modprobe overlay
+      modprobe br_netfilter
+      cat <<EOF | sudo tee /etc/sysctl.d/k8s.conf
+net.bridge.bridge-nf-call-iptables  = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.ipv4.ip_forward                 = 1
+EOF
+      ufw disable
+      systemctl disable --now ufw
+      ufw status
+      cat <<EOF | sudo tee /etc/sysctl.conf
+net.ipv4.ip_forward                 = 1
+EOF
+      sysctl -p
+      systemctl restart kubelet
+      kubeadm init --pod-network-cidr=10.10.0.0/16 --apiserver-advertise-address=192.168.33.100 --v=5
+      mkdir -p /home/vagrant/.kube
+      cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config
+      chown -R vagrant:vagrant /home/vagrant/.kube
+      export KUBECONFIG=/home/vagrant/.kube/config
+      kubectl describe configmap cluster-info -n kube-public
+      token=$(kubeadm token list |tail -n 1 |awk '{print $1}')
+      hashkey=$(openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | sha256sum | cut -d' ' -f1)
+      #hashkey=$(openssl x509 -pubkey -in /etc/kubernetes/pki/ca.crt | openssl rsa -pubin -outform der 2>/dev/null | openssl dgst -sha256 -hex | sed 's/^.* //')
+      ssh vagrant@192.168.33.101 sudo kubeadm join 192.168.33.100:6443 --token $token --discovery-token-ca-cert-hash sha256:$hashkey --v=5
+      kubectl label node worker1 node-role.kubernetes.io/node=worker1
+      kubectl apply -f https://docs.projectcalico.org/manifests/calico.yaml
+      sed -i "/swap/d" /etc/fstab
+      apt install -y bash-completion
+      cat <<EOF >> /home/vagrant/.bashrc
+export KUBECONFIG=/home/vagrant/.kube/config
+source <(kubectl completion bash)
+EOF
+      kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.15.2/config/manifests/metallb-native.yaml
+    SHELL
+  end
+#-------------------------
+
+end
