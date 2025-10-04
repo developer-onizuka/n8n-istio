@@ -230,7 +230,7 @@ success
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/create-App.png" width="480">
 
 アプリケーションの設定画面にて、OAuth＆Permissionsを選択します。<br>
-<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/OAuth-Permission.png" width="480">
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/OAuth-Permissions.png" width="480">
 
 Slackアプリに付与する、権限をスコープとして設定します。ここで与えた権限は、Slackワークスペースにおけるアプリの動作を制限するためのものです。<br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Bot-Toke-Scopes.png" width="480">
