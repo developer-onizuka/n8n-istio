@@ -2,8 +2,8 @@
 # 0. 必要なもの
 mac book air m3/m4 (above 24GB memory)
 # 1. ゴール
-一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築することです。<br><br>
-The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.).
+一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築します。この際、サービスメッシュを使い、HTTPS環境を構築することでセキュアな実行環境を構築します。<br><br>
+The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.).In this case, a secure execution environment is created by using a service mesh and building an HTTPS environment.<br>
 ### 1-1. AIエージェントの完成イメージ
 - 左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br>
 - 右半分：Slackのチャネルに投稿があった場合、それをトリガーにして投稿内容をLLMが理解し、保存されているナレッジを使用して、ユーザーからの質問にSlackで回答するフロー<br><br>
