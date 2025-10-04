@@ -218,37 +218,37 @@ success
 ```
 # 6. AI Agent for Slack Chatbot
 ### 6-1. RAG
-まずは、以下のURLを参考に、RAG部分(左半分)のフローを作成してください。<br>
+まずは、以下のURLを参考に、RAG部分(左半分)のフローを作成してください。<br><br>
 - https://github.com/developer-onizuka/n8n-ollama?tab=readme-ov-file#9-ai-agent-for-rag
 ### 6-2. Slack Trigger
 ### 6-2-1. Slack Bot User OAuth Tokenの取得
-以下のURLで、右上の[Create New App]をクリックし、[From scratch]を選択します。<br>
+以下のURLで、右上の[Create New App]をクリックし、[From scratch]を選択します。<br><br>
 - https://api.slack.com/apps/
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/slack-API.png" width="480">
 
-ここでは、アプリの名前とアプリを動作させるワークスペースを選択します。<br>
+ここでは、アプリの名前とアプリを動作させるワークスペースを選択します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/create-App.png" width="480">
 
-アプリケーションの設定画面にて、OAuth＆Permissionsを選択します。<br>
+アプリケーションの設定画面にて、OAuth＆Permissionsを選択します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/OAuth-Permissions.png" width="480">
 
-Slackアプリに付与する、権限をスコープとして設定します。ここで与えた権限は、Slackワークスペースにおけるアプリの動作を制限するためのものです。<br>
+Slackアプリに付与する、権限をスコープとして設定します。ここで与えた権限は、Slackワークスペースにおけるアプリの動作を制限するためのものです。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Bot-Toke-Scopes.png" width="480">
 
-ここでは、ワークスペースにインストールすることになるアプリに関するOAuthトークンを作成します。<br>
+ここでは、ワークスペースにインストールすることになるアプリに関するOAuthトークンを作成します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/OAuth-Tokens.png" width="480">
 
-許可のボタンをクリックします。<br>
+許可のボタンをクリックします。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/App-Workspace.png" width="480">
 
-Bot User OAuth Tokenをコピーします。後々、このトークンを使用してアプリを認証することになります。<br>
+Bot User OAuth Tokenをコピーします。後々、このトークンを使用してアプリを認証することになります。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Bot-User-OAuth-Token.png" width="480">
 
 ### 6-2-2. Slack Bot User OAuth Tokenの取得
-以下のURLで、Slackを起動します。<br>
+以下のURLで、Slackを起動します。<br><br>
 - https://slack.com/intl/ja-jp/
 
-以下のようにSlackチャネルで、アプリを追加します。<br>
+以下のようにSlackチャネルで、アプリを追加します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel.png" width="480">
 <br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel2.png" width="480">
