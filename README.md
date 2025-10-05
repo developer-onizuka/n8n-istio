@@ -2,7 +2,7 @@
 # 0. 必要なもの
 mac book air m3/m4 (above 24GB memory)
 # 1. ゴール
-一般的なクラウドサービス（AWS、Azure、GCPなど）のマネージドサービスを使わずに、オンプレミス環境で、Kubernetes上にAIエージェントによるSlackチャットボットを構築します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築します。<br><br>
+今回、クラウドのマネージドサービスを使わずに、オンプレミス環境だけで、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
 The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.).In this case, a secure execution environment is created by using a service mesh and building an HTTPS environment.<br>
 ### 1-1. AIエージェントの完成イメージ
 - 左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br>
@@ -123,7 +123,7 @@ NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)    
 istio-ingressgateway   LoadBalancer   10.101.123.63   192.168.33.3   15021:32287/TCP,80:31347/TCP,443:30994/TCP   46h
 ```
 ### 4-3. Create secret for HTTPS
-ここでは、Kubernetes環境、特にIstioサービスメッシュ内で安全な HTTPS通信を確立するための 自己署名証明書を作成し、KubernetesのSecretとして保存する一連のプロセスを実行しています。<br><br>
+ここでは、Kubernetes環境、特にIstioのService Mesh内で安全なHTTPS通信を確立するための自己署名証明書を作成し、KubernetesのSecretとして保存する一連のプロセスを実行しています。<br><br>
 This sequence of commands performs the process of creating a self-signed TLS/SSL certificate and storing it as a Kubernetes Secret to enable secure HTTPS communication within a Kubernetes environment utilizing Istio.<br>
 ```
 openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -subj '/O=example Inc./CN=example.com' -keyout example.com.key -out example.com.crt
@@ -156,7 +156,7 @@ ngrok-authtoken   Opaque   1      20h
 ```
 # 5. 構築までの流れ (コンテナ部)
 ### 5-1. Roll out Ollama & n8n
-n8n-ingress.yaml ファイルで、WEBHOOK_TUNNEL_URL の値を、次のコマンドを実行した結果に設定 (または更新) します。<br><br>
+n8n-ingress.yaml ファイルで、WEBHOOK_TUNNEL_URLの値を、次のコマンドを実行した結果に設定 (または更新) します。<br><br>
 In the n8n-ingress.yaml file, set (or update) the WEBHOOK_TUNNEL_URL value to the result of running the following command:<br>
 ```
 $ kubectl logs ngrok-tunnel-client-74697dd844-8hzc8 | jq -r 'select(.url != null) | .url'
@@ -184,8 +184,7 @@ svc-n8n       ClusterIP   10.109.150.138   <none>        5678/TCP    87m   app=n
 svc-ngrok     ClusterIP   10.108.101.133   <none>        4040/TCP    90m   app=ngrok
 svc-ollama    ClusterIP   10.100.121.176   <none>        11434/TCP   10d   app=ollama
 ```
-
-### 5-3. Download the llama in Ollama as brain
+### 5-3. Download the llama in Ollama as a brain
 ```
 kubectl exec -it <your-ollama-pod-name> -- ollama pull llama3.2:3b
 ```
@@ -203,7 +202,7 @@ writing manifest
 success
 ```
 
-### 5-4. Download the embed model in Ollama as backend for RAG
+### 5-4. Download the embed model in Ollama for RAG
 ```
 kubectl exec -it <your-ollama-pod-name> -- ollama pull nomic-embed-text:latest 
 ```
@@ -256,7 +255,7 @@ Bot User OAuth Tokenをコピーします。後々、このトークンを使用
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel2.png" width="480">
 
 ### 6-2-3. 認証設定
-Slack Triggerノードをキャンバス上に置きます。Slackの設定画面にて、ChannelのIDを入力します。ChannelのIDはSlackが立ち上がっているWebのURLのCから始まる最後の12桁になります。<br><br>
+Slack TriggerノードをCanvas上に置きます。Slackの設定画面にて、ChannelのIDを入力します。ChannelのIDはSlackが立ち上がっているWebのURL(https://app.slack.com/client/)のCから始まる最後の12桁になります。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Slack-Trigger.png" width="960">
 
 次に、[Create new credential]をクリックし、先ほど取得したBot User OAuth Tokenを貼り付けます。<br><br>
@@ -267,7 +266,7 @@ Slack Triggerノードをキャンバス上に置きます。Slackの設定画�
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Edit-Field.png" width="960">
 
 ### 6-4. AI Agent
-これはベクターストアを使用する AI エージェントであり、RAG を搭載したチャットボットとして機能します。<br><br>
+これはベクターストアを使用するAI エージェントであり、RAG を搭載したチャットボットとして機能します。<br><br>
 This is the AI Agent which uses vector store and it works as a chatbot powered by RAG.<br>
 <img src="https://github.com/developer-onizuka/n8n-ollama/blob/main/rag-simple-vector-store.png" width="320">
 
