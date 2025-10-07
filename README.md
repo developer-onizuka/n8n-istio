@@ -219,11 +219,11 @@ success
 ```
 # 6. AI Agent for Slack Chatbot
 ### 6-1. RAG
-まずは、以下のURLを参考に、RAG部分(左半分)のフローを作成してください。<br><br>
+まずは、以下のURLを参考に、RAG部分(左半分)のフローを作成してください。<br>
 - https://github.com/developer-onizuka/n8n-ollama?tab=readme-ov-file#9-ai-agent-for-rag
 ### 6-2. Slack Trigger
 ### 6-2-1. Slack Bot User OAuth Tokenの取得
-以下のURLで、右上の[Create New App]をクリックし、[From scratch]を選択します。<br><br>
+以下のURLで、右上の[Create New App]をクリックし、[From scratch]を選択します。<br>
 - https://api.slack.com/apps/
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/slack-API.png" width="480">
 
