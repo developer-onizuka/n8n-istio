@@ -124,9 +124,10 @@ kubectl apply -f istio-n8n.yaml
 $ kubectl get virtualservices.networking.istio.io 
 NAME                 GATEWAYS          HOSTS                 AGE
 n8n-virtualservice   ["n8n-gateway"]   ["n8n.example.com"]   92m
-$ kubectl get svc istio-ingressgateway -n istio-system
-NAME                   TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)                                      AGE
-istio-ingressgateway   LoadBalancer   10.101.123.63   192.168.33.3   15021:32287/TCP,80:31347/TCP,443:30994/TCP   46h
+$ kubectl get svc -n istio-system 
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                      AGE
+istio-ingressgateway   LoadBalancer   10.100.57.253    <pending>     15021:31316/TCP,80:30636/TCP,443:30103/TCP   89s
+istiod                 ClusterIP      10.103.135.225   <none>        15010/TCP,15012/TCP,443/TCP,15014/TCP        103s
 ```
 ### 4-3. Create secret for HTTPS
 ここでは、Kubernetes環境、特にIstioのService Mesh内で安全なHTTPS通信を確立するための自己署名証明書を作成し、KubernetesのSecretとして保存する一連のプロセスを実行しています。<br><br>
@@ -208,7 +209,35 @@ verifying sha256 digest
 writing manifest 
 success
 ```
+You can confirm if the model can work well:
+```
+$ kubectl exec -it pods/ollama-87cbf6d6c-tc9x7 -- ollama run llama3.2:3b
+>>> Send a message (/? for help)
+```
+So, you can find the following Memory Usage while running ollama:
+```
++-----------------------------------------------------------------------------------------+
+Mon Oct 13 08:55:30 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.65.06              Driver Version: 580.65.06      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Quadro P1000                   On  |   00000000:03:00.0 Off |                  N/A |
+| 58%   71C    P0            N/A  /  N/A  |    2705MiB /   4096MiB |     95%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
 
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
+```
 ### 5-4. Download the embed model in Ollama for RAG
 ```
 kubectl exec -it <your-ollama-pod-name> -- ollama pull nomic-embed-text:latest 
