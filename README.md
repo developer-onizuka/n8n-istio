@@ -1,6 +1,8 @@
 # n8nで開発する、RAGを活用したAIエージェントによるSlackチャットボット
 # 0. 必要なもの
-mac book air m3/m4 (above 24GB memory)
+- mac book air m3/m4 (above 24GB memory)
+### 0-1. オプション
+- NVIDIA GPU (above 4GB GPU memory)
 # 1. ゴール
 今回、クラウドのマネージドサービスを使わずに、オンプレミス環境だけで、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
 The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.). In this case, a secure execution environment is created by using a service mesh and building an HTTPS environment.<br>
@@ -90,6 +92,10 @@ NAME                                       CAPACITY   ACCESS MODES   RECLAIM POL
 pvc-6614e902-7abc-4865-acc9-f2420f338daa   5Gi        RWX            Delete           Bound    default/pvc-nfs-n8n      nfs-vm-csi-n8n   <unset>                          66s
 pvc-8b0667ba-1848-40e5-89f5-0ecaaa0c901d   20Gi       RWX            Delete           Bound    default/pvc-nfs-ollama   nfs-vm-csi       <unset>                          4s
 ```
+### 3-7. NVIDIA GPU Operator
+See following:<br>
+- https://github.com/developer-onizuka/NVIDIA-GPU-Operator
+
 # 4. 構築までの流れ　(Service Mesh部)
 ### 4-1. Install istio
 Istioは、Kubernetes環境で稼働するService Meshを実現するためのオープンソースプラットフォームです。マイクロサービスの接続、セキュリティ、管理、監視を担い、トラフィックルーティング（A/Bテストなど）、認証認可、メトリクス収集といった高度な機能を提供し、開発者ではなくインフラ側でサービス間通信の複雑さを扱えるようにします。今回は、HTTPS環境を構築する際に、IstioのIngress Gatewayを活用します。Ingress Gatewayは、Kubernetesクラスターの外部からのトラフィックを受け付ける Istioの入り口であり、特にセキュリティとトラフィック管理において重要な役割を果たします。<br><br>
@@ -162,7 +168,8 @@ In the n8n-ingress.yaml file, set (or update) the WEBHOOK_TUNNEL_URL value to th
 $ kubectl logs ngrok-tunnel-client-74697dd844-8hzc8 | jq -r 'select(.url != null) | .url'
 https://xxxxxxxxxx.ngrok-free.dev
 ```
-After edit the file of n8n-ingress.yaml, let's apply it in the kubernetes:
+After edit the file of n8n-ingress.yaml, let's apply it in the kubernetes:<br>
+If you are using GPU, then apply "ollama-gpu.yaml" instead of ollama.yaml.
 ```
 kubectl apply -f ollama.yaml
 kubectl apply -f n8n-ingress.yaml
