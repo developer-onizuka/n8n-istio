@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: ollama
+  name: ollama
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ollama
+  template:
+    metadata:
+      labels:
+        app: ollama
+    spec:
+      runtimeClassName: nvidia 
+      containers:
+      - image: ollama/ollama:latest
+        name: ollama
+        ports:
+        - containerPort: 11434
+        resources:
+          limits:
+            nvidia.com/gpu: "1" 
+        volumeMounts:
+        - name: ollama-csi-data
+          mountPath: /root/.ollama
+      volumes:
+      - name: ollama-csi-data
+        persistentVolumeClaim:
+          claimName: pvc-nfs-ollama
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: ollama
+  name: svc-ollama
+  namespace: default
+spec:
+  ports:
+  - port: 11434
+  selector:
+    app: ollama
