@@ -321,8 +321,8 @@ Client ID、Secretを設定します。https://api.slack.com/apps/ でアプリ�
 
 ### 6-6. Event Subscription
 https://api.slack.com/apps/ でアプリを選択し、Event Subscription画面に遷移します。
-[Enable Events]をOnにします。[Add Bot User Event]をクリックしてapp_mentionを選択します。Requested URLにProduction URLをペーストします。**[Save Changes]をクリックして変更を保存する(重要)。**<br>
-**なお、ワークフローがActiveな状態でない場合は、このProduction URLはVerifyとなりません(重要)。** <br><br>
+[Enable Events]をOnにします。[Add Bot User Event]をクリックしてapp_mentionを選択します。Requested URLにProduction URLをペーストします。**[Save Changes]をクリックして変更を保存する(重要)。**
+**また、ワークフローがActiveな状態でない場合は、このProduction URLはVerifiedとなりません(重要)。** <br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Event-Subscription.png" width="480">
 
 Production URLは、Slack Triggerをダブルクリックして現れる画面からコピーします。**ここではlocalhostから始まるURLですが、localhostの部分は、n8n-ingress.yaml内で定義したWEBHOOK_TUNNEL_URLと置き換えます(重要)。**<br><br>
