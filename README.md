@@ -291,7 +291,7 @@ Bot User OAuth Tokenをコピーします。後々、このトークンを使用
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Adding-App-in-the-channel2.png" width="480">
 
 ### 6-2-3. 認証設定
-Slack TriggerノードをCanvas上に置きます。Slackの設定画面にて、ChannelのIDを入力します。ChannelのIDはSlackが立ち上がっているWebのURL(https://app.slack.com/client/)のCから始まる最後の12桁になります。<br><br>
+Slack TriggerノードをCanvas上に置きます。Slackの設定画面にて、ChannelのIDを入力します。ChannelのIDはSlackが立ち上がっているWebのURL "https://app.slack.com/client/" のCから始まる最後の12桁になります。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Slack-Trigger.png" width="960">
 
 次に、[Create new credential]をクリックし、先ほど取得したBot User OAuth Tokenを貼り付けます。<br><br>
