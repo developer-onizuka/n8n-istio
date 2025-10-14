@@ -316,7 +316,7 @@ Description:
 
 Client ID、Secretを設定します。https://api.slack.com/apps/ でアプリを選択し、Basic Informationでこれらの値を確認できます。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Redirect-URL.png" width="960"><br><br>
-表示されているRedirect URL（https://n8n.example.com/rest/oauth2-credential/callback） を、Slackアプリの「OAuth & Permissions」に追加してください。このURLは、n8nノードにSlackへのメッセージ送信権限を許可するOAuth認証フローの完了後の戻り先です。具体的には、Slackの権限を操作できるユーザーがブラウザ上で「許可」を押した後、SlackはこのURLに認証コードを付けてリダイレクトします。Istio Ingress GatewayによりHTTPSで暗号化されているため、この重要な認証コードを安全にn8nへ渡し、Slack Send a messageのノードが最終的なアクセストークンを取得できるようになります。<br><br>
+表示されているRedirect URL "https://n8n.example.com/rest/oauth2-credential/callback" を、Slackアプリの「OAuth & Permissions」に追加してください。このURLは、n8nノードにSlackへのメッセージ送信権限を許可するOAuth認証フローの完了後の戻り先です。具体的には、Slackの権限を操作できるユーザーがブラウザ上で「許可」を押した後、SlackはこのURLに認証コードを付けてリダイレクトします。Istio Ingress GatewayによりHTTPSで暗号化されているため、この重要な認証コードを安全にn8nへ渡し、Slack Send a messageのノードが最終的なアクセストークンを取得できるようになります。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/Redirect-URL2.png" width="480">
 
 ### 6-6. Event Subscription
