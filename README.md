@@ -104,7 +104,7 @@ Istio is an open-source platform that enables a service mesh running in a Kubern
 mkdir work
 cd work/
 curl -L https://istio.io/downloadIstio | sh -
-cd istio-1.27.1/
+cd $(ls)
 export PATH=$PWD/bin:$PATH
 istioctl version
 istioctl install --set profile=default -y
