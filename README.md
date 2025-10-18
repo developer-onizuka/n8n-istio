@@ -2,7 +2,8 @@
 # 0. 必要なもの
 - mac book air m3/m4 (above 24GB memory)
 ### 0-1. オプション
-- NVIDIA GPU (above 4GB GPU memory)
+- NVIDIA GPU (above 4GB GPU memory)<br>
+  ex) Quadro P1000, Quadro P4000
 # 1. ゴール
 今回、クラウドのマネージドサービスを使わずに、オンプレミス環境だけで、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
 The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.). In this case, a secure execution environment is created by using a service mesh and building an HTTPS environment.<br>
@@ -238,6 +239,23 @@ Mon Oct 13 08:55:30 2025
 |  No running processes found                                                             |
 +-----------------------------------------------------------------------------------------+
 ```
+
+### 5-3-1. (Optional) Download gpt-oss:20b
+```
+kubectl exec -it <your-ollama-pod-name> -- ollama pull gpt-oss:20b
+```
+```
+$ kubectl exec -it pods/ollama-87cbf6d6c-hzz9b -- ollama pull gpt-oss:20b
+pulling manifest 
+pulling e7b273f96360: 100% ▕██████████████████████████████████████▏  13 GB                         
+pulling fa6710a93d78: 100% ▕██████████████████████████████████████▏ 7.2 KB                         
+pulling f60356777647: 100% ▕██████████████████████████████████████▏  11 KB                         
+pulling d8ba2f9a17b3: 100% ▕██████████████████████████████████████▏   18 B                         
+pulling 776beb3adb23: 100% ▕██████████████████████████████████████▏  489 B                         
+verifying sha256 digest 
+writing manifest 
+success 
+```
 ### 5-4. Download the embed model in Ollama for RAG
 ```
 kubectl exec -it <your-ollama-pod-name> -- ollama pull nomic-embed-text:latest 
@@ -252,6 +270,32 @@ pulling 31df23ea7daa: 100% ▕████████████████�
 verifying sha256 digest 
 writing manifest 
 success 
+```
+```
+$ kubectl exec -it pods/ollama-87cbf6d6c-hzz9b -- ollama run gpt-oss:20b
+>>> Send a message (/? for help)
+```
+```
+Sat Oct 18 15:12:39 2025       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 580.82.07              Driver Version: 580.82.07      CUDA Version: 13.0     |
++-----------------------------------------+------------------------+----------------------+
+| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  Quadro P4000                   On  |   00000000:03:00.0 Off |                  N/A |
+| 50%   52C    P0             28W /  105W |    7643MiB /   8192MiB |     10%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+
++-----------------------------------------------------------------------------------------+
+| Processes:                                                                              |
+|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
+|        ID   ID                                                               Usage      |
+|=========================================================================================|
+|  No running processes found                                                             |
++-----------------------------------------------------------------------------------------+
 ```
 # 6. AI Agent for Slack Chatbot
 ### 6-1. RAG
