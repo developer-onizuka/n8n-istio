@@ -23,7 +23,28 @@ The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-pre
 
 ### 2-2. Install Vagrant
 >https://developer.hashicorp.com/vagrant/install
-
+### 2-2-1. (Optional) virsh data
+```
+vi data_pool.xml 
+<pool type='dir'>
+  <name>data</name>
+  <target>
+    <path>/mnt/data</path>
+  </target>
+</pool>
+```
+```
+virsh pool-define data_pool.xml 
+virsh pool-start data
+virsh pool-autostart data
+```
+```
+$ virsh pool-list  --all
+ Name      State    Autostart
+-------------------------------
+ data      active   yes
+ default   active   yes
+```
 ### 2-3. Install git & git clone
 >https://git-scm.com/downloads
 ```
