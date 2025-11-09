@@ -277,6 +277,23 @@ verifying sha256 digest
 writing manifest 
 success 
 ```
+### 5-3-2. (Optional) Download llama3.1:8b-instruct-q6_K
+llama3.1:8b-instruct-q6_K is a version of the 8 billion parameter interaction (Instruct) model from Meta Llama 3.1, compressed using 6-bit quantization (q6_K). This model is recommended for users who want to easily try it out in a local environment while maintaining high performance and using less memory.
+```
+kubectl exec -it <your-ollama-pod-name> -- ollama pull llama3.1:8b-instruct-q6_K
+```
+```
+$ kubectl exec -it ollama-87cbf6d6c-b6sg2 -- ollama pull llama3.1:8b-instruct-q6_K
+pulling manifest 
+pulling 2eda6fab632c: 100% ▕██████████████████████████████████████▏ 6.6 GB                         
+pulling 948af2743fc7: 100% ▕██████████████████████████████████████▏ 1.5 KB                         
+pulling 0ba8f0e314b4: 100% ▕██████████████████████████████████████▏  12 KB                         
+pulling 56bb8bd477a5: 100% ▕██████████████████████████████████████▏   96 B                         
+pulling ad688d3b0503: 100% ▕██████████████████████████████████████▏  485 B                         
+verifying sha256 digest 
+writing manifest 
+success
+```
 ### 5-4. Download the embed model in Ollama for RAG
 ```
 kubectl exec -it <your-ollama-pod-name> -- ollama pull nomic-embed-text:latest 
