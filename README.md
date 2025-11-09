@@ -311,20 +311,20 @@ writing manifest
 success 
 ```
 ```
-$ kubectl exec -it pods/ollama-87cbf6d6c-hzz9b -- ollama run gpt-oss:20b
+$ kubectl exec -it pods/ollama-87cbf6d6c-hzz9b -- ollama run llama3.1:8b-instruct-q6_K
 >>> Send a message (/? for help)
 ```
 ```
-Sat Oct 18 15:12:39 2025       
+Sun Nov  9 14:21:42 2025       
 +-----------------------------------------------------------------------------------------+
-| NVIDIA-SMI 580.82.07              Driver Version: 580.82.07      CUDA Version: 13.0     |
+| NVIDIA-SMI 580.95.05              Driver Version: 580.95.05      CUDA Version: 13.0     |
 +-----------------------------------------+------------------------+----------------------+
 | GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |
 | Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
 |                                         |                        |               MIG M. |
 |=========================================+========================+======================|
 |   0  Quadro P4000                   On  |   00000000:03:00.0 Off |                  N/A |
-| 50%   52C    P0             28W /  105W |    7643MiB /   8192MiB |     10%      Default |
+| 50%   44C    P8              5W /  105W |    6809MiB /   8192MiB |      0%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
 
