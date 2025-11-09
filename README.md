@@ -278,6 +278,7 @@ writing manifest
 success 
 ```
 ### 5-3-2. (Optional) Download llama3.1:8b-instruct-q6_K
+llama3.1:8b-instruct-q6_Kは、Meta Llama 3.1の80億パラメータの対話（Instruct）モデルを、6ビットKuantization（q6_K）で圧縮したバージョンです。高性能を維持しつつ省メモリで、ローカル環境で気軽に試用・実行したいユーザーに推奨されるモデルです。なお、llama3.1:8b-instruct-fp16は、Meta社がリリースした量子化されていないモデルで、このFP16モデルをベースにして、重みを6ビット（Q6_K）という低い精度に量子化したものが、llama3.1:8b-instruct-q6_Kになります。<br><br>
 llama3.1:8b-instruct-q6_K is a version of the 8 billion parameter interaction (Instruct) model from Meta Llama 3.1, compressed using 6-bit quantization (q6_K). This model is recommended for users who want to easily try it out in a local environment while maintaining high performance and using less memory.
 - https://ollama.com/library/llama3.1/tags
 ```
