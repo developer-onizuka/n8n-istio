@@ -279,6 +279,7 @@ success
 ```
 ### 5-3-2. (Optional) Download llama3.1:8b-instruct-q6_K
 llama3.1:8b-instruct-q6_K is a version of the 8 billion parameter interaction (Instruct) model from Meta Llama 3.1, compressed using 6-bit quantization (q6_K). This model is recommended for users who want to easily try it out in a local environment while maintaining high performance and using less memory.
+- https://ollama.com/library/llama3.1/tags
 ```
 kubectl exec -it <your-ollama-pod-name> -- ollama pull llama3.1:8b-instruct-q6_K
 ```
