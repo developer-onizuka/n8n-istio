@@ -2,8 +2,8 @@
 # 0. 必要なもの
 - mac book air m3/m4 (above 24GB memory)
 ### 0-1. オプション
-- NVIDIA GPU (above 4GB GPU memory)<br>
-  ex) Quadro P1000, Quadro P4000
+- NVIDIA GPU (above 8GB GPU memory)<br>
+  ex) Quadro P4000
 # 1. ゴール
 今回、クラウドのマネージドサービスを使わずに、オンプレミス環境だけで、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
 The goal is to build a Slack chatbot with an AI agent on Kubernetes in an on-premises environment without using managed services from common cloud services (AWS, Azure, GCP, etc.). In this case, a secure execution environment is created by using a service mesh and building an HTTPS environment.<br>
