@@ -17,7 +17,7 @@
 
 ## 2. 外部アクセスの方法論 (Identity-Aware Proxy)
 
-オンプレミス環境では、MetalLBを使うことが多いのですが、今回はAWSの **ALB + Cognito + Istio** による多層防御へ進化させています。
+オンプレミス環境ではMetalLBを使うことが多いのですが、今回はn8nの実行環境を、AWSの **ALB + Cognito + Istio** による多層認証環境で実現します。
 
 ### 認証フロー
 1. **Request:** ユーザーが `n8n.example.com` にアクセス。
