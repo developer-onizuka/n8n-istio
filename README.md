@@ -1,4 +1,4 @@
-# n8n + istio + AWS Cognito + AWS WorkSpaces Web
+# n8n環境を、AWS Cognito + AWS WorkSpaces Webを実現する
 
 ## 1. アーキテクチャ概要
 
@@ -7,7 +7,7 @@
 ### コンポーネント構成
 | カテゴリ | サービス | 役割 |
 | :--- | :--- | :--- |
-| **Compute** | **Amazon EKS (v1.28+)** | n8n および Istio Service Mesh のホスト |
+| **Compute** | **Amazon EKS** | n8n および Istio Service Mesh のホスト |
 | **Networking** | **AWS Load Balancer (ALB)** | 外部入口。SSL終端とCognito認証のハンドシェイク |
 | **Service Mesh** | **Istio** | Pod間通信の暗号化 (mTLS) と高度なルーティング |
 | **Identity** | **Amazon Cognito** | 外部ユーザー・Webhookの認証・認可基盤 |
