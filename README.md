@@ -1,6 +1,19 @@
 # n8n環境を、AWS Cognito + AWS WorkSpaces Webを実現する
 
-## 1. アーキテクチャ概要
+# 1. ゴール
+今回は、AWS環境を使って、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
+
+### 1-1. AIエージェントの完成イメージ
+- 左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br>
+- 右半分：Slackのチャネルに投稿があった場合、それをトリガーにして投稿内容をLLMが理解し、保存されているナレッジを使用して、ユーザーからの質問にSlackで回答するフロー<br><br>
+- Left half: A flow for uploading any PDF and creating a vector database.<br>
+- Right half: When a post is made to a Slack channel, it triggers LLM to understand the post and use stored knowledge to answer user questions via Slack.<br>
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-slack-RAG.png" width="960">
+
+### 1-2. Slackチャットボットの受け答えイメージ
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/slack-bot.png" width="960">
+
+## 2. アーキテクチャ概要
 
 本構成では、n8n本体をプライベートサブネットに完全に隠蔽し、外部からのアクセスを **Amazon Cognito** で認証。さらに、管理者によるメンテナンスを **Amazon WorkSpaces Web** 経由に限定することで、最高水準のセキュリティを担保します。
 
@@ -15,7 +28,7 @@
 
 ---
 
-## 2. 外部アクセスの方法論 (Identity-Aware Proxy)
+## 3. 外部アクセスの方法論 (Identity-Aware Proxy)
 
 オンプレミス環境ではMetalLBを使うことが多いのですが、今回はn8nの実行環境を、AWSの **ALB + Cognito + Istio** による多層認証環境で実現します。
 
