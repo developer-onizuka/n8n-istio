@@ -33,7 +33,7 @@
 | カテゴリ | サービス | 役割 | サブネット |
 | :--- | :--- | :--- | :--- |
 | **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
-| **Networking** | **AWS Load Balancer (ALB)** | 内部からのアクセスエンドポイント | プライベート |
+| **Networking** | **AWS Load Balancer (ALB)** | Amazon Workspacesからのアクセスエンドポイント | プライベート |
 | **Directory Service** | **Simple AD or AWS Managed Microsoft AD** | Amazon Workspacesのユーザー認証基盤 | プライベート |
 | **User Access** | **Amazon WorkSpaces** | AIエージェント環境へアクセスするためのVDI環境 | プライベート |
 
