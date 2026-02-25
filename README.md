@@ -15,7 +15,7 @@
 
 ## 2. アーキテクチャ概要
 
-本構成では、n8n本体をプライベートサブネットに完全に隠蔽し、外部からのアクセスを **Amazon Cognito** で認証。さらに、管理者によるメンテナンスを **Amazon WorkSpaces Web** 経由に限定することで、最高水準のセキュリティを担保します。
+本構成では、n8n本体をプライベートサブネットに完全に隠蔽し、外部からのアクセスを **Amazon Cognito** で認証。さらに、管理者によるメンテナンスを **Amazon WorkSpaces Web** 経由に限定することで、企業でのコンプライアンス実現に寄与します。
 
 ### コンポーネント構成
 | カテゴリ | サービス | 役割 |
@@ -23,8 +23,8 @@
 | **Compute** | **Amazon EKS** | n8n および Istio Service Mesh のホスト |
 | **Networking** | **AWS Load Balancer (ALB)** | 外部入口。SSL終端とCognito認証のハンドシェイク |
 | **Service Mesh** | **Istio** | Pod間通信の暗号化 (mTLS) と高度なルーティング |
-| **Identity** | **Amazon Cognito** | 外部ユーザー・Webhookの認証・認可基盤 |
-| **Admin Access** | **Amazon WorkSpaces Web** | 管理者専用のセキュアなブラウザ環境（VPC内接続） |
+| **User Identity** | **Amazon Cognito** | ユーザー認証・認可基盤 |
+| **User Access** | **Amazon WorkSpaces Web** | Browser as a Service（マネージドなブラウザ環境） |
 
 ---
 
