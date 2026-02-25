@@ -1,7 +1,7 @@
 # n8n環境を、AWS Cognito + AWS WorkSpaces Webを実現する
 
 # 1. ゴール
-今回は、AWS環境を使って、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
+今回は、AWS環境を使って、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshとしてistioを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
 
 ### 1-1. AIエージェントの完成イメージ
 - 左半分：任意のpdfをアップロードし、ベクトルデータベース化するフロー<br>
