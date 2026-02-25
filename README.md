@@ -15,16 +15,25 @@
 
 ## 2. アーキテクチャ概要
 
-本構成では、n8n本体をプライベートサブネットに完全に隠蔽し、外部からのアクセスを **Amazon Cognito** で認証。さらに、管理者によるメンテナンスを **Amazon WorkSpaces Web** 経由に限定することで、企業でのコンプライアンス実現に寄与します。
+実装イメージを以下に示します。n8n本体をプライベートサブネットで構成してはいますが、n8nのサービスが外部から参照可能になってしまうことが課題です。<br>
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws.drawio.png" width="480"
 
 ### コンポーネント構成
-| カテゴリ | サービス | 役割 |
-| :--- | :--- | :--- |
-| **Compute** | **Amazon EKS** | n8n および Istio Service Mesh のホスト |
-| **Networking** | **AWS Load Balancer (ALB)** | 外部入口。SSL終端とCognito認証のハンドシェイク |
-| **Service Mesh** | **Istio** | Pod間通信の暗号化 (mTLS) と高度なルーティング |
-| **User Identity** | **Amazon Cognito** | ユーザー認証・認可基盤 |
-| **User Access** | **Amazon WorkSpaces Web** | Browser as a Service（マネージドなブラウザ環境） |
+| カテゴリ | サービス | 役割 | サブネット |
+| :--- | :--- | :--- | :--- |
+| **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
+| **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセス | パブリック |
+
+そこで、WorkSpacesを介したセキュアなデスクトップ接続により、外部公開のリスクを排除し、厳格なガバナンスとコンプライアンスを実現します。WorkSpaces上のセキュアなデスクトップ環境で操作を完結させることで、ローカルPCへのデータ保存を制限し、情報漏洩リスクを最小化することも狙いです。<br>
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws2.drawio.png" width="480"
+
+### コンポーネント構成
+| カテゴリ | サービス | 役割 | サブネット |
+| :--- | :--- | :--- | :--- |
+| **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
+| **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセス | プライベート |
+| **Directory Service** | **Simple AD or AWS Managed Microsoft AD** | Amazon Workspacesのユーザー認証基盤 | プライベート |
+| **User Access** | **Amazon WorkSpaces** | AIエージェント環境へアクセスするためのVDI環境 | プライベート |
 
 ---
 
