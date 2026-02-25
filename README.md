@@ -15,8 +15,8 @@
 
 ## 2. アーキテクチャ概要
 
-実装イメージを以下に示します。n8n本体をプライベートサブネットで構成してはいますが、n8nのサービスが外部から参照可能になってしまうことが課題です。<br>
-<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws.drawio.png" width="480">
+実装イメージを以下に示します。n8n本体をプライベートサブネットで構成してはいますが、n8nのサービスが外部から参照可能になってしまうことが課題です。<br><br>
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws.drawio.png" width="720">
 
 ### コンポーネント構成
 | カテゴリ | サービス | 役割 | サブネット |
@@ -24,8 +24,8 @@
 | **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
 | **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセス | パブリック |
 
-そこで、WorkSpacesを介したセキュアなデスクトップ接続により、外部公開のリスクを排除し、厳格なガバナンスとコンプライアンスを実現します。WorkSpaces上のセキュアなデスクトップ環境で操作を完結させることで、ローカルPCへのデータ保存を制限し、情報漏洩リスクを最小化することも狙いです。<br>
-<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws2.drawio.png" width="480">
+そこで、WorkSpacesを介したセキュアなデスクトップ接続により、外部公開のリスクを排除し、厳格なガバナンスとコンプライアンスを実現します。WorkSpaces上のセキュアなデスクトップ環境で操作を完結させることで、ローカルPCへのデータ保存を制限し、情報漏洩リスクを最小化することも狙いです。<br><br>
+<img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws2.drawio.png" width="720">
 
 ### コンポーネント構成
 | カテゴリ | サービス | 役割 | サブネット |
