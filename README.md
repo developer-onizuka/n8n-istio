@@ -22,16 +22,16 @@
 | カテゴリ | サービス | 役割 | サブネット |
 | :--- | :--- | :--- | :--- |
 | **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
-| **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセス | パブリック |
+| **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセスエンドポイント | パブリック |
 
 そこで、WorkSpacesを介したセキュアなデスクトップ接続により、外部公開のリスクを排除し、厳格なガバナンスとコンプライアンスを実現します。WorkSpaces上のセキュアなデスクトップ環境で操作を完結させることで、ローカルPCへのデータ保存を制限し、情報漏洩リスクを最小化することも狙いです。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws2.drawio.png" width="720">
 
-### コンポーネント構成
+### 改良後のコンポーネント構成
 | カテゴリ | サービス | 役割 | サブネット |
 | :--- | :--- | :--- | :--- |
 | **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
-| **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセス | プライベート |
+| **Networking** | **AWS Load Balancer (ALB)** | 内部からのアクセスエンドポイント | プライベート |
 | **Directory Service** | **Simple AD or AWS Managed Microsoft AD** | Amazon Workspacesのユーザー認証基盤 | プライベート |
 | **User Access** | **Amazon WorkSpaces** | AIエージェント環境へアクセスするためのVDI環境 | プライベート |
 
