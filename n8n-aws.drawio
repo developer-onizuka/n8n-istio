@@ -1,16 +1,25 @@
 <mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36" version="29.5.3">
   <diagram name="ページ-1" id="Yl-amOjmZlxuvAhg2Ngp">
-    <mxGraphModel dx="976" dy="533" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+    <mxGraphModel dx="1803" dy="533" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
+        <mxCell id="alshsnw65Znfn-BA7iug-52" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="520" width="760" x="-40" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="alshsnw65Znfn-BA7iug-50" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="450" width="400" x="280" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="alshsnw65Znfn-BA7iug-48" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;" value="" vertex="1">
+          <mxGeometry height="450" width="120" x="120" y="80" as="geometry" />
+        </mxCell>
         <mxCell id="alshsnw65Znfn-BA7iug-32" edge="1" parent="1" source="alshsnw65Znfn-BA7iug-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="320" y="219" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="alshsnw65Znfn-BA7iug-2" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.application_load_balancer;" value="" vertex="1">
-          <mxGeometry height="38" width="38" x="200" y="200" as="geometry" />
+          <mxGeometry height="38" width="38" x="160" y="200" as="geometry" />
         </mxCell>
         <mxCell id="alshsnw65Znfn-BA7iug-3" parent="1" style="aspect=fixed;sketch=0;html=1;dashed=0;whitespace=wrap;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon2;prIcon=ing" value="" vertex="1">
           <mxGeometry height="38.4" width="40" x="760" y="540" as="geometry" />
@@ -27,8 +36,8 @@
         <mxCell id="alshsnw65Znfn-BA7iug-9" parent="1" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#ED7100;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.compute;" value="" vertex="1">
           <mxGeometry height="40" width="40" x="320.01" y="480" as="geometry" />
         </mxCell>
-        <mxCell id="alshsnw65Znfn-BA7iug-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Amazon EC2によるKubernetesクラスター" vertex="1">
-          <mxGeometry height="30" width="329.99" x="310" y="530" as="geometry" />
+        <mxCell id="alshsnw65Znfn-BA7iug-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=#82b366;fillColor=#d5e8d4;align=center;verticalAlign=middle;rounded=0;" value="Amazon EC2によるKubernetesクラスター" vertex="1">
+          <mxGeometry height="30" width="320" x="320" y="440" as="geometry" />
         </mxCell>
         <mxCell id="alshsnw65Znfn-BA7iug-11" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Istio&amp;nbsp;&lt;span style=&quot;background-color: transparent; color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Ingress Gateway&lt;/span&gt;&lt;div&gt;(Type=LoadBalancer)&lt;/div&gt;" vertex="1">
           <mxGeometry height="30" width="140" x="360" y="208" as="geometry" />
@@ -56,8 +65,8 @@
           <mxGeometry height="30" width="106" x="287.01" y="400.00000000000006" as="geometry" />
         </mxCell>
         <UserObject label="https://n8n.example.com" link="n8n.example.com" id="alshsnw65Znfn-BA7iug-22">
-          <mxCell parent="1" style="text;whiteSpace=wrap;" vertex="1">
-            <mxGeometry height="30" width="140" x="150" y="170" as="geometry" />
+          <mxCell parent="1" style="text;whiteSpace=wrap;fillColor=default;" vertex="1">
+            <mxGeometry height="30" width="140" x="82" y="240" as="geometry" />
           </mxCell>
         </UserObject>
         <mxCell id="alshsnw65Znfn-BA7iug-23" parent="1" style="aspect=fixed;sketch=0;html=1;dashed=0;whitespace=wrap;verticalLabelPosition=bottom;verticalAlign=top;fillColor=#2875E2;strokeColor=#ffffff;points=[[0.005,0.63,0],[0.1,0.2,0],[0.9,0.2,0],[0.5,0,0],[0.995,0.63,0],[0.72,0.99,0],[0.5,1,0],[0.28,0.99,0]];shape=mxgraph.kubernetes.icon2;prIcon=secret" value="" vertex="1">
@@ -104,6 +113,18 @@
             <mxPoint x="340" y="340" as="sourcePoint" />
             <mxPoint x="340" y="382" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="alshsnw65Znfn-BA7iug-47" parent="1" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#8C4FFF;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.vpc_virtual_private_cloud_vpc;" value="" vertex="1">
+          <mxGeometry height="37.03" width="38" x="-20" y="510" as="geometry" />
+        </mxCell>
+        <mxCell id="alshsnw65Znfn-BA7iug-49" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=4" value="Public Subnet" vertex="1">
+          <mxGeometry height="30" width="106" x="120" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="alshsnw65Znfn-BA7iug-51" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=4" value="Private Subnet" vertex="1">
+          <mxGeometry height="30" width="106" x="280" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="alshsnw65Znfn-BA7iug-53" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=4" value="VPC" vertex="1">
+          <mxGeometry height="30" width="80" x="-40" y="480" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
