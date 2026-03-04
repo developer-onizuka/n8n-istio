@@ -1,4 +1,4 @@
-# n8n環境を、AWS Cognito + AWS WorkSpaces Webを実現する
+# n8n環境を、AWS WorkSpaces Webで実現する
 
 # 1. ゴール
 今回は、AWS環境を使って、Kubernetes上にAIエージェントによるSlackチャットボットを構築することを目指します。この際、Service Meshとしてistioを使い、HTTPS環境を構築することでセキュアな実行環境を構築することにします。<br><br>
@@ -22,7 +22,7 @@
 | カテゴリ | サービス | 役割 | サブネット |
 | :--- | :--- | :--- | :--- |
 | **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
-| **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセスエンドポイント | パブリック |
+| **Networking** | **AWS Load Balancer (NLB)** | 外部からのアクセスエンドポイント | パブリック |
 
 <br><br>
 
@@ -33,7 +33,7 @@
 | カテゴリ | サービス | 役割 | サブネット |
 | :--- | :--- | :--- | :--- |
 | **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
-| **Networking** | **AWS Load Balancer (ALB)** | Amazon Workspacesからのアクセスエンドポイント | プライベート |
+| **Networking** | **AWS Load Balancer (NLB)** | Amazon Workspacesからのアクセスエンドポイント | プライベート |
 | **Directory Service** | **Simple AD or AWS Managed Microsoft AD** | Amazon Workspacesのユーザー認証基盤 | プライベート |
 | **User Access** | **Amazon WorkSpaces** | AIエージェント環境へアクセスするためのVDI環境 | プライベート |
 
@@ -41,13 +41,35 @@
 
 ## 3. 外部アクセスの方法論 (Identity-Aware Proxy)
 
-オンプレミス環境ではMetalLBを使うことが多いのですが、今回はn8nの実行環境を、AWSの **ALB + Cognito + Istio** による多層認証環境で実現します。
+オンプレミス環境では MetalLB を用いた外部公開が一般的ですが、本構成では AWS のマネージドサービスを最大限活用し、AWS WorkSpaces + NLB + Istio による強固な閉域アクセス環境を実現します。
 
-### 認証フロー
-1. **Request:** ユーザーが `n8n.example.com` にアクセス。
-2. **Authenticate:** ALBが **Amazon Cognito** へリダイレクト。ユーザーはID/PWまたはSAML/OIDCでログイン。
-3. **Authorize:** 認証成功後、ALBがリクエストヘッダーに **JWT (JSON Web Token)** を付与し、Istio Ingress Gatewayへ転送。
-4. **Enforce:** Istioが `RequestAuthentication` ポリシーを用いてJWTの署名を検証し、正規のアクセスのみをn8n Podへルーティング。
+ユーザー認証には Simple AD と連携した WorkSpaces を採用し、物理的に分離されたデスクトップ環境からのアクセスのみを許可。ネットワーク階層では NLB (Network Load Balancer) によるプロトコルパススルーを行い、最終的な HTTPS 終端を Istio Ingress Gateway で実施することで、証明書管理の柔軟性とゼロトラストなトラフィック制御を両立させています。
+
+### 認証・アクセスフロー
+
+本構成では、インターネットにエンドポイントを公開せず、**AWS WorkSpaces** という制御されたデスクトップ環境からのアクセスのみを許可する「閉域アクセスモデル」を採用しています。
+
+1. **Access Control (VDI Auth):** ユーザーは **Simple AD** で認証された **AWS WorkSpaces** にログインします。このディレクトリサービスによる認証が、システムへの第一の関門となります。
+
+2. **Request (Internal DNS):** WorkSpaces 上のセキュアなブラウザから、内部専用ドメイン（例: `n8n.internal`）を使用してアクセスします。リクエストは VPC 内の **Route 53 Private Hosted Zone** を介して NLB へ解決されます。
+
+3. **Transport (L4 Passthrough):** **NLB (Network Load Balancer)** がリクエストを受信。L4（TCP）レイヤーで動作するため、HTTPS 暗号化パケットを書き換えることなく、そのまま **Istio Ingress Gateway** へパススルー転送します。
+
+4. **Encryption (TLS Termination):** **Istio Ingress Gateway** が、Kubernetes Secret 内に保持された証明書を用いて HTTPS を終端（SSL復号）します。これにより、証明書管理の柔軟性を Kubernetes 側に集約しています。
+
+5. **Verify & Route:** Istio が `AuthorizationPolicy` を適用。アクセス元が WorkSpaces のサブネット CIDR であることを最終検証し、正規のトラフィックのみを n8n Pod へルーティングします。
+
+
+
+---
+
+### この構成のメリット
+
+| 項目 | 特徴 |
+| :--- | :--- |
+| **ゼロトラスト** | 「認証されたデバイス（WorkSpaces）」からのアクセスのみを信頼する構造。 |
+| **完全閉域化** | パブリックなインターネットからの攻撃パス（外部IP）を物理的に排除。 |
+| **構成の簡素化** | 通常、ALB で外部公開する際は n8n 自体のログイン画面が露出するリスクを避けるため、前段での Cognito 連携（IDベースの認証）が強く推奨されるが、本構成では WorkSpaces (Simple AD) で入口を固めることで、ALB 側の複雑な認証・証明書設定を排し、Istio 側で暗号化を完結させているのが特徴です。 |
 
 ---
 
