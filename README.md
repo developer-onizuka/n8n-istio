@@ -15,7 +15,7 @@
 
 ## 2. アーキテクチャ概要
 
-実装イメージを以下に示します。<br><br>
+誰もが思いつくであろう一般的な実装イメージを以下に示します。<br><br>
 <img src="https://github.com/developer-onizuka/n8n-istio/blob/main/n8n-aws.drawio.png" width="720">
 
 | カテゴリ | サービス | 役割 | サブネット |
