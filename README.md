@@ -22,6 +22,7 @@
 | :--- | :--- | :--- | :--- |
 | **Compute** | **Amazon EC2** | Istio Service Mesh や AIエージェント関連サービスのホスト | プライベート |
 | **Networking** | **AWS Load Balancer (ALB)** | 外部からのアクセスエンドポイント | パブリック |
+| **Security** | **Amazon Cognito** | ユーザー認証・認可 | パブリック |
 
 <br>
 この構成では、n8n 本体や LLM（Ollama）を安全な Private Subnet に隔離しつつ、Public Subnet に配置したロードバランサーを玄関として、Istio Service Mesh を通じてトラフィックを制御しています。ユーザーがブラウザから https://n8n.example.com にアクセスすると、まず Public Subnet に配置されたロードバランサー（図内の紫のアイコン）がリクエストを受信します。インターネットからのトラフィックを直接受け取り、SSL/TLS の終端や、バックエンド（Private Subnet）への転送を行うことになります。<br><br>
