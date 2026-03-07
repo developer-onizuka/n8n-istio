@@ -24,7 +24,7 @@
 | **Networking** | **AWS Load Balancer (NLB)** | 外部からのアクセスエンドポイント | パブリック |
 
 <br>
-この構成では、n8n 本体や LLM（Ollama）を安全な Private Subnet に隔離しつつ、Public Subnet に配置したロードバランサーを「玄関」として、Istio Service Mesh を通じてトラフィックを制御しています。ユーザーがブラウザから https://n8n.example.com にアクセスすると、まず Public Subnet に配置されたロードバランサー（図内の紫のアイコン）がリクエストを受信します。インターネットからのトラフィックを直接受け取り、SSL/TLS の終端や、バックエンド（Private Subnet）への転送を行うことになります。<br>
+この構成では、n8n 本体や LLM（Ollama）を安全な Private Subnet に隔離しつつ、Public Subnet に配置したロードバランサーを「玄関」として、Istio Service Mesh を通じてトラフィックを制御しています。ユーザーがブラウザから https://n8n.example.com にアクセスすると、まず Public Subnet に配置されたロードバランサー（図内の紫のアイコン）がリクエストを受信します。インターネットからのトラフィックを直接受け取り、SSL/TLS の終端や、バックエンド（Private Subnet）への転送を行うことになります。<br><br>
 
 次に、ロードバランサーは、受信したトラフィックを Private Subnet 内で動作する Istio Ingress Gateway Pod へ転送します。Ingress Gateway は、Service Meshの入り口として機能します。図中の n8n-credential（Secret）を参照して、ここで改めて高度な SSL 終端や、パスベースのルーティング判断を行います。また、ロードバランサーと Ingress Gateway を分けることで、AWS インフラ層の制御と、Kubernetes 内部のサービス制御（Istio）を分離することで管理の簡易化を目指すものです。<br>
 
