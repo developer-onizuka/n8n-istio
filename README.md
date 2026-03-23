@@ -132,6 +132,7 @@ kubectl apply -f istio-n8n.yaml
 $ kubectl get virtualservices.networking.istio.io 
 NAME                 GATEWAYS          HOSTS                 AGE
 n8n-virtualservice   ["n8n-gateway"]   ["n8n.example.com"]   92m
+
 $ kubectl get svc -n istio-system 
 NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                                      AGE
 istio-ingressgateway   LoadBalancer   10.100.57.253    <pending>     15021:31316/TCP,80:30636/TCP,443:30103/TCP   89s
@@ -156,14 +157,6 @@ n8n-credential    kubernetes.io/tls   2      42h
 
 # 6. 構築までの流れ (コンテナ部)
 ### 6-1. Roll out Ollama & n8n
-n8n-ingress.yaml ファイルで、WEBHOOK_TUNNEL_URLの値を、次のコマンドを実行した結果に設定 (または更新) します。<br><br>
-In the n8n-ingress.yaml file, set (or update) the WEBHOOK_TUNNEL_URL value to the result of running the following command:<br>
-```
-$ kubectl logs ngrok-tunnel-client-74697dd844-8hzc8 | jq -r 'select(.url != null) | .url'
-https://xxxxxxxxxx.ngrok-free.dev
-```
-After edit the file of n8n-ingress.yaml, let's apply it in the kubernetes:<br>
-If you are using GPU, then apply "ollama-gpu.yaml" instead of ollama.yaml.
 ```
 kubectl apply -f ollama.yaml
 kubectl apply -f n8n-ingress.yaml
@@ -172,7 +165,6 @@ kubectl apply -f n8n-ingress.yaml
 $ kubectl get pods -o wide
 NAME                                   READY   STATUS    RESTARTS      AGE   IP              NODE      NOMINATED NODE   READINESS GATES
 n8n-bcc459b78-wg77l                    2/2     Running   0             94m   10.10.235.139   worker1   <none>           <none>
-ngrok-tunnel-client-74697dd844-7ms4n   2/2     Running   0             98m   10.10.235.137   worker1   <none>           <none>
 ollama-6c988c64c6-qgsdm                1/1     Running   7 (20h ago)   10d   10.10.235.173   worker1   <none>           <none>
 ```
 ### 6-2. Confirm Services
@@ -182,7 +174,6 @@ NAME          TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)     AGE   SELEC
 kubernetes    ClusterIP   10.96.0.1        <none>        443/TCP     10d   <none>
 svc-mongodb   ClusterIP   10.111.235.84    <none>        27017/TCP   10d   app=mongodb
 svc-n8n       ClusterIP   10.109.150.138   <none>        5678/TCP    87m   app=n8n
-svc-ngrok     ClusterIP   10.108.101.133   <none>        4040/TCP    90m   app=ngrok
 svc-ollama    ClusterIP   10.100.121.176   <none>        11434/TCP   10d   app=ollama
 ```
 ### 6-3. Download the llama in Ollama as a brain
