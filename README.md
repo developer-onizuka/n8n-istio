@@ -80,7 +80,7 @@ WorkSpaces 上のセキュアなブラウザから、内部専用ドメイン（
 Istio が `AuthorizationPolicy` を適用。アクセス元が WorkSpaces のサブネット CIDR であることを最終検証し、正規のトラフィックのみを n8n Pod へルーティングします。
 
 # 4. 構築までの流れ (Kubernetes部)
-まずは、EC2 インスタンスを用いて Kubernetes 環境用の仮想マシンを 2〜3 台（うち 1 台は GPU リソースを搭載）準備し、クラスターを構築します。なお、本構築手順の詳細については割愛します。
+まずは、EC2 インスタンスを用いて Kubernetes 環境用の仮想マシンを 2〜3 台（うち 1 台は GPU リソースを搭載）準備し、クラスターを構築します。なお、本構築手順の詳細については割愛します。<br>
 EKS を利用する場合は、AWS 公式ドキュメント https://docs.aws.amazon.com/ja_jp/batch/latest/userguide/create-gpu-cluster-eks.html を参考にクラスターを作成してください。
 クラスター作成後、コントロールプレーン（Master node）から NVIDIA GPU Operator を導入します。これにより、各ノードの GPU ドライバーや Toolkit が DaemonSet として自動的にインストールされます。
 
@@ -102,8 +102,9 @@ master    Ready    control-plane   39m   v1.33.5
 worker1   Ready    node            38m   v1.33.5
 ```
 ### 4-3. NVIDIA GPU Operator
-See following:<br>
+こちらを見てGPU Operatorをクラスターに導入してください。<br>
 - https://github.com/developer-onizuka/NVIDIA-GPU-Operator
+<br>
 
 # 5. 構築までの流れ　(Service Mesh部)
 ### 5-1. Install istio
